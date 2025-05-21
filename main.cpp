@@ -162,6 +162,7 @@ public:
             hand.push_back(playCard);
             if (playCard.Color == top.Color || playCard.Value == top.Value || playCard.Color == Black) {
                 while(true){
+                    cout<<"your new cards:";
                     printCards();
                     card C;
                     C.enter();
@@ -172,6 +173,7 @@ public:
                     hand.erase(hand.begin()+hand.size()-1);
                     if(playCard.Color==Black){newcolor(playCard);}
                     top=playCard;
+                    return;
                 }
             }
             if (top.Value == 10 || top.Value == 11 || top.Value == 12 || top.Value == 14){
@@ -182,7 +184,7 @@ public:
 };
 class Botplayer : public player{
 public:
-    void play(card &top,int i,int &next){
+    void  play(card &top,int i,int &next){
         cout <<"id: " << id << "  bot"<<i<<" cards:";
         printCards();
 
@@ -211,9 +213,9 @@ public:
 
         playCard.full();
         if(playCard.Value == top.Value || playCard.Color == top.Color || playCard.Color == Black ){
+            cout<<"new cards:";printCards();
+            cout << "bot played : ";playCard.print();
             top=playCard;
-            cout << "bot played : ";
-            top.print();
             if(top.Color==Black){
                 int newColor = rand() % 4 + 15;
                 top.Color = newColor;
@@ -221,9 +223,9 @@ public:
             }
         }else{
             hand.push_back(playCard);
-        }
-        if (top.Value == 10 || top.Value == 11 || top.Value == 12 || top.Value == 14){
-            next = 1;
+            if (top.Value == 10 || top.Value == 11 || top.Value == 12 || top.Value == 14){
+                next = 1;
+            }
         }
     }
 };
@@ -301,31 +303,11 @@ public:
             cout << endl;
             cout <<"  your cards:";
             player1.printCards();
-            while (true) {
-                cout << "choose color (Yellow,Blue,Red,Green):\n";
-                string color;
-                cin >> color;
-                toUpper(color);
-                if (color == "RED") {
-                    Topcard.Color = Red;
-                    break;
-                }else if (color == "BLUE"){
-                    Topcard.Color = Blue;
-                    break;
-                }else if (color == "YELLOW"){
-                    Topcard.Color = Yellow;
-                    break;
-                }else if (color == "GREEN"){
-                    Topcard.Color = Green;
-                    break;
-                }else{
-                    cout << "wrong color try again!" << endl;
-                }
-            }
+            player1.newcolor(Topcard);
         }
-        if (Topcard.Value == 11) { Clockwise = 0; }
-        else { Clockwise = 1; }
         if (Topcard.Value == 10) { ClockWies(); }
+        if (Topcard.Value == 11) { Clockwise = 0; }
+
         while (true) {
             int next = 0;
             cout << "\nCards Count:\n";
